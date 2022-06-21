@@ -1,0 +1,4 @@
+#ifndef _DMX_TRANSMITTER_H_
+#define _DMX_TRANSMITTER_H_
+
+#endif // _DMX_TRANSMITTER_H_
