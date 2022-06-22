@@ -22,8 +22,8 @@ void DMX_Transceiver::init() {
   _dmx_receiver = new DMX_Receiver();
   _dmx_transmitter = new DMX_Transmitter();
 
-  _dmx_receiver->init();
-  _dmx_transmitter->init();
+  //_dmx_receiver->init();
+  //_dmx_transmitter->init();
 
   //  TIMER 1
   //  Atmega328p (arduino nano)
@@ -36,15 +36,13 @@ void DMX_Transceiver::init() {
   //  Set Output Compare Register A for timer 1 to 1 = 0x0001
   OCR1A = 0x0000 | 0x0001;
 
-  //CLKPR = 0xF424;
-  //  Enable interrupts
-  TIMSK1 = 0x0000 | (1 << 1);
+
 }
 
 void DMX_Transceiver::start() {
   _dmx_transmitter->start();
   _dmx_receiver->start();
-  TIMSK1 = 0x0000 | (1 << 1);
+  //TIMSK1 = 0x0000 | (1 << 1);
 }
 
 void DMX_Transceiver::stop() {
@@ -66,11 +64,13 @@ void DMX_Transceiver::set_rx_pin(dmx_digitalPin RX) {
   _dmx_receiver->set_pin(RX);
 }
 
+void DMX_Transceiver::send() {
+  _dmx_transmitter->send();
+}
 
 //  
-bool testv = false;
 ISR(TIMER1_COMPA_vect){
-  _dmx_transmitter->iterate();
+  _dmx_transmitter->iterate_transmission();
 }
 
 

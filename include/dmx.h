@@ -45,4 +45,8 @@ typedef enum DMX_PortBytes {
     D
 } dmx_portByte;
 
+
+extern bool LO;
+extern bool HI;
+
 #endif // _DMX_H_
