@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include "dmx.h"
 #include "dmx_transmitter.h"
-#include "dmx_receiver.h"
 
 class DMX_Transceiver {
 public:
@@ -13,16 +12,14 @@ public:
     void start();
     void stop();
     void send();
-    void set_pins(dmx_digitalPin RX, dmx_digitalPin TX);
-    void set_tx_pin(dmx_digitalPin pin);
-    void set_rx_pin(dmx_digitalPin pin);
-
+    void set_tx_enable_pin(uint8_t pin);
+    void set_dmx_value(uint8_t channel, uint8_t value);
 private:
 };
 
 
 extern DMX_Transmitter *_dmx_transmitter;
-extern DMX_Receiver    *_dmx_receiver;
+// extern DMX_Receiver    *_dmx_receiver;
 
 
 #endif
