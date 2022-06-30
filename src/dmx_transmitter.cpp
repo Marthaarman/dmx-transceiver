@@ -42,7 +42,7 @@ uint16_t DMX_Transmitter::_BAUDRateRegister(uint32_t desiredBAUDRate) {
   return ( (F_CPU / (16 * (desiredBAUDRate)) ) - 1 );
 }
 
-void DMX_Transmitter::send() {
+void DMX_Transmitter::transmit() {
   //  set flags
   //  enable transmission pin
   this->_start();
@@ -87,32 +87,54 @@ void DMX_Transmitter::_USART_Init_DMX() {
 }
 
 void DMX_Transmitter::_USART_Write_BREAK() {
+  //  break is 88us low
+  //  write zeros
+  //  write the payload to UDR0
   UDR0 = (uint8_t) 0;
 }
 
 void DMX_Transmitter::_USART_Write_BYTE(uint8_t BYTE) {
+  //  write the payload byte -> BYTE
+  //  set UDR0 to the value of the byte
   UDR0 = BYTE;
 }
 
 void DMX_Transmitter::interrupt() {
+  //  interrupt is public
+  //  calls internal private interrupt
   this->_USART_TX_Interrupt();
 }
 
 void DMX_Transmitter::_USART_TX_Interrupt() {
+  //  private interrupt function for the transmitter
+  //  if send is called, allow either payload or start code
+  //  if send flag is set to false, the interrupt of the last sent byte will still be triggered
   if(this->_flag_send) {
     if(this->_flag_payload) {
+      //  in payload phase
+      //  send next byte each iteration
+      //  DMX has 512 packets (bytes)
       this->_USART_Write_BYTE(this->_channel_values[this->_byte_counter]);
       this->_byte_counter++;
     }else {
+      //  in startcode phase
+      //  enable the DMX speeds of 250k baud
+      //  send first byte of the DMX values which cannot be overwritten and equals 0
+      //  continue to the payload after
       this->_USART_Init_DMX();
       this->_flag_payload = true;
       this->_USART_Write_BYTE(this->_channel_values[this->_byte_counter]);
       this->_byte_counter++;
     }
   }else {
+    //  last byte has been sent
+    //  reset all flags
+    //  disable the TX pin
     this->_stop();
   }
   if(this->_byte_counter >= 513) {
+    //  sent last byte
+    //  reset all flags
     this->_byte_counter = 0;
     this->_flag_payload = false;
     this->_flag_send = false;

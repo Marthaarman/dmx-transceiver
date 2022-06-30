@@ -16,20 +16,15 @@ uint16_t _BAUDRateRegister(uint32_t desiredBAUDRate) {
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-
   dmx_transceiver = new DMX_Transceiver();
   dmx_transceiver->init();
-  dmx_transceiver->set_tx_enable_pin(2);
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
   delay(2000);
-
   
-  for(int i  = 0; i < 513; i++) {
-    dmx_transceiver->set_dmx_value(i, 0);
-  }
-  delay(2000);
+  
+  
 
   
 }
@@ -38,18 +33,14 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   // dmx_transceiver->send();
-  dmx_transceiver->set_dmx_value(1, 50);
-  dmx_transceiver->send();
-  delay(2000);
-
-  dmx_transceiver->set_dmx_value(1, 150);
-  dmx_transceiver->send();
-  delay(2000);
-
-  dmx_transceiver->set_dmx_value(1, 250);
-  dmx_transceiver->send();
-  delay(2000);
-
+  dmx_transceiver->receive();
+  if(dmx_transceiver->get_dmx_value(1) == 150) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(500);
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  delay(1000);
+  
   // USART_Write_Byte((uint8_t) 0xFF);
 }
 

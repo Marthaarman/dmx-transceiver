@@ -10,7 +10,7 @@ public:
     DMX_Transmitter();
     void init();
     void set_dmx_value(uint8_t channel, uint8_t value);
-    void send();
+    void transmit();
     void interrupt();
     void set_enable_pin(uint8_t pin);
 private:

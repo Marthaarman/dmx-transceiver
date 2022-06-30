@@ -11,9 +11,12 @@ public:
     void init();
     void start();
     void stop();
-    void send();
+    void transmit();
+    void receive();
+    void transceive();
     void set_tx_enable_pin(uint8_t pin);
     void set_dmx_value(uint8_t channel, uint8_t value);
+    uint8_t get_dmx_value(uint8_t channel); 
 private:
 };
 
