@@ -1,4 +1,3 @@
-#include "dmx.h"
 #include "dmx_transceiver.h"
 #include "dmx_transmitter.h"
 #include <Arduino.h>

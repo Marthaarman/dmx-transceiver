@@ -1,4 +1,3 @@
-#include "dmx.h"
 #include "dmx_transceiver.h"
 #include "dmx_receiver.h"
 #include <Arduino.h>
@@ -90,7 +89,6 @@ void DMX_Receiver::_USART_RX_Interrupt() {
     this->_flag_receive = false;
     this->_flag_break_received = false;
     this->_byte_counter = 0;
-    // digitalWrite(LED_BUILTIN, LOW);
     
   }
 }
