@@ -45,7 +45,7 @@ void DMX_Receiver::receive() {
   this->_USART_Init_DMX();
 
   //  stall main code to make sure full packet is received
-  while(this->_flag_started) { if(this->_flag_started == false) {break; }};
+  while(this->_flag_started) { if(this->_flag_receive == false) {break; }};
 }
 
 void DMX_Receiver::_USART_Stop() {
@@ -73,7 +73,9 @@ void DMX_Receiver::_USART_RX_Interrupt() {
   uint8_t frame = UDR0;
 
   if(this->_flag_receive) {
-    if(frame == 0 && this->_byte_counter == 0) {
+    if(frame == 0 && this->_byte_counter == 0 && frame_error != 0) {
+      this->_flag_break_received = true;
+    } else if(frame == 0 && this->_byte_counter == 0 && frame_error == 0 && this->_flag_break_received) {
       //  start code most likely
       // digitalWrite(LED_BUILTIN, HIGH);
       this->_byte_counter++;
@@ -86,6 +88,7 @@ void DMX_Receiver::_USART_RX_Interrupt() {
     this->_stop();
     this->_flag_payload = false;
     this->_flag_receive = false;
+    this->_flag_break_received = false;
     this->_byte_counter = 0;
     // digitalWrite(LED_BUILTIN, LOW);
     

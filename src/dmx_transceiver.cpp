@@ -46,7 +46,7 @@ uint8_t DMX_Transceiver::get_dmx_value(uint8_t channel) {
   if(channel > 0 && channel < 513) {
     return _dmx_receiver->get_dmx_value(channel);
   }
-  return 0;
+  return 50;
 }
 
 // Interrupt service routines that are called when the actual byte was sent.

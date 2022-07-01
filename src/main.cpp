@@ -32,14 +32,31 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  // dmx_transceiver->send();
+  
+  // dmx_transceiver->set_dmx_value(1, 100);
+  // dmx_transceiver->transmit();
+  // delay(1000);
+  // dmx_transceiver->set_dmx_value(1, 0);
+  // dmx_transceiver->transmit();
+  // delay(1000);
+  
+
+
+
   dmx_transceiver->receive();
-  if(dmx_transceiver->get_dmx_value(1) == 150) {
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(500);
-    digitalWrite(LED_BUILTIN, LOW);
+  
+ 
+    
+  if(dmx_transceiver->get_dmx_value(1) == 100) {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(50);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(50);
   }
-  delay(1000);
+    
+    
+  
+  delay(10);
   
   // USART_Write_Byte((uint8_t) 0xFF);
 }
