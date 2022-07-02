@@ -27,7 +27,6 @@ void DMX_Receiver::_stop() {
   this->_flag_started = false;
   this->_flag_receive = false;
   this->_USART_Stop();
-  // digitalWrite(LED_BUILTIN, LOW);
 }
 
 void DMX_Receiver::set_enable_pin(uint8_t pin) {
@@ -71,12 +70,11 @@ void DMX_Receiver::_USART_RX_Interrupt() {
   //  get the byte of data
   uint8_t frame = UDR0;
 
+  //  interrupt might be triggered but only take action when truely expect data
   if(this->_flag_receive) {
     if(frame == 0 && this->_byte_counter == 0 && frame_error != 0) {
       this->_flag_break_received = true;
     } else if(frame == 0 && this->_byte_counter == 0 && frame_error == 0 && this->_flag_break_received) {
-      //  start code most likely
-      // digitalWrite(LED_BUILTIN, HIGH);
       this->_byte_counter++;
     }else  if(this->_byte_counter > 0) {
       this->_channel_values[this->_byte_counter] = frame;

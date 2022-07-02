@@ -18,14 +18,16 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   
-  dmx_transceiver->set_dmx_value(1, 100);
+  dmx_transceiver->set_dmx_value(1, 255);
+  dmx_transceiver->set_dmx_value(2, 255);
+  dmx_transceiver->set_dmx_value(3, 255);
+  dmx_transceiver->set_dmx_value(4, 255);
+  dmx_transceiver->set_dmx_value(5, 255);
   dmx_transceiver->transmit();
-  delay(1000);
-  dmx_transceiver->set_dmx_value(1, 0);
-  dmx_transceiver->transmit();
-  delay(1000);
+  delay(50);
   
-  dmx_transceiver->receive();
+  
+  // dmx_transceiver->receive();
   
 }
 
