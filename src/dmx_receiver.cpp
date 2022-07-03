@@ -44,7 +44,11 @@ void DMX_Receiver::receive() {
   this->_USART_Init_DMX();
 
   //  stall main code to make sure full packet is received
-  while(this->_flag_started) { if(this->_flag_receive == false) {break; }};
+  uint32_t begin_time = millis();
+  while(this->_flag_started) { 
+    if(this->_flag_receive == false) {break; }                                    //  done receiving
+    if((millis() - begin_time) > 1000 && this->_flag_payload == false) {break;}   //  time-out
+  };
 }
 
 void DMX_Receiver::_USART_Stop() {
