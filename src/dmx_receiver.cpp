@@ -1,5 +1,6 @@
 #include "dmx_transceiver.h"
 #include "dmx_receiver.h"
+#include "dmx_boards.h"
 #include <Arduino.h>
 
 DMX_Receiver::DMX_Receiver() {}
@@ -47,40 +48,53 @@ void DMX_Receiver::receive() {
 }
 
 void DMX_Receiver::_USART_Stop() {
-  UCSR0B = 0;
+  DMX_UCSRB = 0;
 }
 
 void DMX_Receiver::_USART_Init_DMX() {
    //  set the baud rate register
-  UBRR0H = (this->_BAUDRateRegister(250000) >> 8);
-  UBRR0L = (this->_BAUDRateRegister(250000));
+  DMX_UBRRH = (this->_BAUDRateRegister(250000) >> 8);
+  DMX_UBRRL = (this->_BAUDRateRegister(250000));
 
   //  enable Transmitter (TXEN0) and Transmitter interrupts (TXCIE0)
-  UCSR0B = ( (1 << RXEN0) | (1 << RXCIE0) );
+  DMX_UCSRB = ( (1 << DMX_RXEN) | (1 << DMX_RXCIE) );
 
   //  set frame format (8 data, even parity and 2 stop bits)
-  UCSR0C = SERIAL_8N2;
+  DMX_UCSRC = SERIAL_8N2;
 }
 
 
 void DMX_Receiver::_USART_RX_Interrupt() {
   //  get frame error
-  uint8_t frame_error = (UCSR0A & (1 << FE0)); 
+  uint8_t frame_error = (DMX_UCSRA & (1 << DMX_FE)); 
 
   //  get the byte of data
-  uint8_t frame = UDR0;
+  uint8_t frame = DMX_UDR;
 
   //  interrupt might be triggered but only take action when truely expect data
   if(this->_flag_receive) {
     if(frame == 0 && this->_byte_counter == 0 && frame_error != 0) {
+      //  break
+      //  frame value equals 0
+      //  there should be a frame error
+      //  break received = true
+      //  continue to start code
       this->_flag_break_received = true;
     } else if(frame == 0 && this->_byte_counter == 0 && frame_error == 0 && this->_flag_break_received) {
+      //  byte counter = 0, which means byte 0 = start code
+      //  do nothing, continue to payload receive
       this->_byte_counter++;
     }else  if(this->_byte_counter > 0) {
+      //  payload
+      //  increase byte counter each time
+      //  store received byte
       this->_channel_values[this->_byte_counter] = frame;
       this->_byte_counter++;
     }
   }
+  
+  //  check if all bytes have been received
+  //  if so, stop actions, restore flags and stop interrupts
   if(this->_byte_counter >= 512) {
     this->_stop();
     this->_flag_payload = false;
@@ -95,6 +109,7 @@ void DMX_Receiver::interrupt() {
   this->_USART_RX_Interrupt();
 }
 
+//  return a specific channel value
 uint8_t DMX_Receiver::get_dmx_value(uint8_t channel) {
   return this->_channel_values[channel];
 }

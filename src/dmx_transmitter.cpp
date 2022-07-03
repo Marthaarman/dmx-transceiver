@@ -1,5 +1,6 @@
 #include "dmx_transceiver.h"
 #include "dmx_transmitter.h"
+#include "dmx_boards.h"
 #include <Arduino.h>
 
 //  TRANSMITTER
@@ -58,44 +59,44 @@ void DMX_Transmitter::transmit() {
 }
 
 void DMX_Transmitter::_USART_Stop() {
-  UCSR0B = 0;
+  DMX_UCSRB = 0;
 }
 
 void DMX_Transmitter::_USART_Init_BREAK() {
   //  set the baud rate register
-  UBRR0H = (this->_BAUDRateRegister(100000) >> 8);
-  UBRR0L = (this->_BAUDRateRegister(100000));
+  DMX_UBRRH = (this->_BAUDRateRegister(100000) >> 8);
+  DMX_UBRRL = (this->_BAUDRateRegister(100000));
 
-  //  enable Transmitter (TXEN0) and Transmitter interrupts (TXCIE0)
-  UCSR0B = ( (1 << TXEN0) | (1 << TXCIE0) );
+  //  enable Transmitter and Transmitter interrupts
+  DMX_UCSRB = ( (1 << DMX_TXEN) | (1 << DMX_TXCIE) );
 
   //  set frame format (8 data, even parity and 2 stop bits)
-  UCSR0C = SERIAL_8E2;
+  DMX_UCSRC = SERIAL_8E2;
 }
 
 void DMX_Transmitter::_USART_Init_DMX() {
   //  set the baud rate register
-  UBRR0H = (this->_BAUDRateRegister(250000) >> 8);
-  UBRR0L = (this->_BAUDRateRegister(250000));
+  DMX_UBRRH = (this->_BAUDRateRegister(250000) >> 8);
+  DMX_UBRRL = (this->_BAUDRateRegister(250000));
 
-  //  enable Transmitter (TXEN0) and Transmitter interrupts (TXCIE0)
-  UCSR0B = ( (1 << TXEN0) | (1 << TXCIE0) );
+  //  enable Transmitter and Transmitter interrupts
+  DMX_UCSRB = ( (1 << DMX_TXEN) | (1 << DMX_TXCIE) );
 
   //  set frame format (8 data, even parity and 2 stop bits)
-  UCSR0C = SERIAL_8N2;
+  DMX_UCSRC = SERIAL_8N2;
 }
 
 void DMX_Transmitter::_USART_Write_BREAK() {
   //  break is 88us low
   //  write zeros
   //  write the payload to UDR0
-  UDR0 = (uint8_t) 0;
+  DMX_UDR = (uint8_t) 0;
 }
 
 void DMX_Transmitter::_USART_Write_BYTE(uint8_t BYTE) {
   //  write the payload byte -> BYTE
   //  set UDR0 to the value of the byte
-  UDR0 = BYTE;
+  DMX_UDR = BYTE;
 }
 
 void DMX_Transmitter::interrupt() {

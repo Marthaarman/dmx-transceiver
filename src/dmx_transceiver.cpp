@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "dmx_transmitter.h"
 #include "dmx_receiver.h"
+#include "dmx_boards.h"
 
 DMX_Transmitter *_dmx_transmitter;
 DMX_Receiver    *_dmx_receiver;
@@ -51,18 +52,18 @@ uint8_t DMX_Transceiver::get_dmx_value(uint8_t channel) {
 
 //  interrupt call for the transmitter
 //  called when the actual byte was sent.
-ISR(USART_TX_vect) {
+ISR(DMX_USART_TX_vect) {
   _dmx_transmitter->interrupt();
 }
 
 //  interrupt call for the transmitter
 //  called after data register was emptied by handing it over to the shift register.
-ISR(USART_UDRE_vect) {
+ISR(DMX_USART_UDRE_vect) {
   _dmx_transmitter->interrupt();
 }
 
 //  interrupt for the receiver
 //  called when a byte has been received
-ISR(USART_RX_vect) {
+ISR(DMX_USART_RX_vect) {
   _dmx_receiver->interrupt();
 }
