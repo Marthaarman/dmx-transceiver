@@ -3,11 +3,29 @@
 
 class DMX_Receiver {
     public:
+
+    //  constructor
     DMX_Receiver();
+
+    //  initializes the transmitter
+    //  calculates the baud rate
     void init();
+
+    //  set the pin that is enabled during receiving
+    //  this pin is set to high when enabled
+    //  used for devices like the max485
+    //  default pin 3
     void set_enable_pin(uint8_t pin);
+
+    //  allow the device to receive DMX frames
+    //  while called, this function will idle other processing with exception of interrupts
+    //  stores received dmx payload
     void receive();
+
+    //  called when a byte has been received
     void interrupt();
+
+    //  returns the value of a specific dmx channel
     uint8_t get_dmx_value(uint8_t channel); 
     
 private:
