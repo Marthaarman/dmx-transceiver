@@ -6,7 +6,7 @@
 #ifndef _DMX_BOARDS_H_
 #define _DMX_BOARDS_H_
 
-#define atmega32u4
+#define atmega328p
 
 //  SOURCE:
 //  https://github.com/mathertel/DMXSerial/blob/master/src/DMXSerial_avr.h

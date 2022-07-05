@@ -55,7 +55,7 @@ void DMX_Transmitter::transmit() {
 
   //  add a delay to make sure packet is sent
   //  packet is measured to take about 25ms
-  delay(25);
+  delay(50);
 }
 
 void DMX_Transmitter::_USART_Stop() {

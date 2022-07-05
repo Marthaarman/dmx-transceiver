@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include "dmx_transceiver.h"
 
-#define SWITCH_PIN 4
+#define SWITCH_PIN 9
 
 // transceiver instance best to be pointer
 DMX_Transceiver *dmx_transceiver;
@@ -33,6 +33,7 @@ bool prev_switch_value;
 
 void setup() {
   pinMode(SWITCH_PIN, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   //  initialize a new transceiver instane
   dmx_transceiver = new DMX_Transceiver();
@@ -58,15 +59,19 @@ void detect_transceiver_mode() {
 
 void switch_light() {
   if(current_switch_state == SWITCH_States::ON) {
+    digitalWrite(LED_BUILTIN, HIGH);
     dmx_transceiver->set_dmx_value(1, 255);
-    dmx_transceiver->set_dmx_value(1, 255);
-    dmx_transceiver->set_dmx_value(1, 255);
-    dmx_transceiver->set_dmx_value(1, 255);
+    dmx_transceiver->set_dmx_value(2, 255);
+    dmx_transceiver->set_dmx_value(3, 255);
+    dmx_transceiver->set_dmx_value(4, 255);
+    dmx_transceiver->set_dmx_value(5, 255);
   }else if(current_switch_state == SWITCH_States::OFF) {
+    digitalWrite(LED_BUILTIN, LOW);
     dmx_transceiver->set_dmx_value(1, 0);
-    dmx_transceiver->set_dmx_value(1, 0);
-    dmx_transceiver->set_dmx_value(1, 0);
-    dmx_transceiver->set_dmx_value(1, 0);
+    dmx_transceiver->set_dmx_value(2, 0);
+    dmx_transceiver->set_dmx_value(3, 0);
+    dmx_transceiver->set_dmx_value(4, 0);
+    dmx_transceiver->set_dmx_value(5, 0);
   }
 }
 
@@ -77,15 +82,17 @@ void loop() {
   dmx_transceiver->receive();
   detect_transceiver_mode();
   current_switch_value = digitalRead(SWITCH_PIN);
-
+  
   switch(current_tranceiver_state) {
     case MASTER_MODE:
-      if(current_switch_state != prev_switch_state && current_switch_state == 1) {
+      if(current_switch_value != prev_switch_value && current_switch_value == 1) {
         //  switched the button from off to on
         current_switch_state = ON;
-      }else if(current_switch_state != prev_switch_state && current_switch_state == 0) {
+        prev_switch_value = 1;
+      }else if(current_switch_value != prev_switch_value && current_switch_value == 0) {
         //  switched the button from on to off
         current_switch_state = OFF;
+        prev_switch_value = 0;
       }
       switch_light();
 
@@ -99,6 +106,7 @@ void loop() {
       break;
 
   }
+
   dmx_transceiver->transmit();
 }
 
