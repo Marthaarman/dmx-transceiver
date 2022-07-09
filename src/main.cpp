@@ -35,8 +35,10 @@ void setup() {
   pinMode(SWITCH_PIN, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  //  initialize a new transceiver instane
+  //  initialize a new transceiver instance
   dmx_transceiver = new DMX_Transceiver();
+  dmx_transceiver->set_rx_enable_pin(6);
+  dmx_transceiver->set_tx_enable_pin(5);
   dmx_transceiver->init();  
 
   if(digitalRead(SWITCH_PIN) == 1) {
@@ -50,35 +52,37 @@ void setup() {
 
 
 void detect_transceiver_mode() {
-  if(dmx_transceiver->get_dmx_value(512) >= 250) {
+  if(dmx_transceiver->get_dmx_value(511) >= 250) {
+    digitalWrite(LED_BUILTIN, HIGH);
     current_tranceiver_state = TRANSCEIVER_States::SLAVE_MODE;
   }else {
+    digitalWrite(LED_BUILTIN, LOW);
     current_tranceiver_state = TRANSCEIVER_States::MASTER_MODE;
   }
 }
 
 void switch_light() {
   if(current_switch_state == SWITCH_States::ON) {
-    digitalWrite(LED_BUILTIN, HIGH);
-    dmx_transceiver->set_dmx_value(1, 255);
-    dmx_transceiver->set_dmx_value(2, 255);
-    dmx_transceiver->set_dmx_value(3, 255);
-    dmx_transceiver->set_dmx_value(4, 255);
-    dmx_transceiver->set_dmx_value(5, 255);
+    
+    dmx_transceiver->set_dmx_value(25, 255);
+    dmx_transceiver->set_dmx_value(27, 255);
+    dmx_transceiver->set_dmx_value(29, 255);
+    dmx_transceiver->set_dmx_value(31, 255);
+    dmx_transceiver->set_dmx_value(33, 255);
+    dmx_transceiver->set_dmx_value(35, 255);
   }else if(current_switch_state == SWITCH_States::OFF) {
-    digitalWrite(LED_BUILTIN, LOW);
-    dmx_transceiver->set_dmx_value(1, 0);
-    dmx_transceiver->set_dmx_value(2, 0);
-    dmx_transceiver->set_dmx_value(3, 0);
-    dmx_transceiver->set_dmx_value(4, 0);
-    dmx_transceiver->set_dmx_value(5, 0);
+    dmx_transceiver->set_dmx_value(25, 0);
+    dmx_transceiver->set_dmx_value(27, 0);
+    dmx_transceiver->set_dmx_value(29, 0);
+    dmx_transceiver->set_dmx_value(31, 0);
+    dmx_transceiver->set_dmx_value(33, 0);
+    dmx_transceiver->set_dmx_value(35, 0);
   }
 }
 
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
   dmx_transceiver->receive();
   detect_transceiver_mode();
   current_switch_value = digitalRead(SWITCH_PIN);

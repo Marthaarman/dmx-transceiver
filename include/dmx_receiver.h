@@ -26,11 +26,11 @@ class DMX_Receiver {
     void interrupt();
 
     //  returns the value of a specific dmx channel
-    uint8_t get_dmx_value(uint8_t channel); 
+    uint8_t get_dmx_value(uint16_t channel); 
     
 private:
     
-    uint8_t _rx_enable_pin = 3;
+    uint8_t _rx_enable_pin = 6;
     uint8_t *_channel_values = (uint8_t*) calloc(513, sizeof(uint8_t));
 
     uint16_t _byte_counter = 0;

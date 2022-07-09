@@ -21,6 +21,7 @@ void DMX_Transceiver::set_tx_enable_pin(uint8_t pin) {
 }
 
 void DMX_Transceiver::set_rx_enable_pin(uint8_t pin) {
+  
   _dmx_receiver->set_enable_pin(pin);
 }
 
@@ -32,7 +33,7 @@ void DMX_Transceiver::receive() {
   _dmx_receiver->receive();
 }
 
-void DMX_Transceiver::set_dmx_value(uint8_t channel, uint8_t value) {
+void DMX_Transceiver::set_dmx_value(uint16_t channel, uint8_t value) {
   //  channel 0 should not be accessed
   //  channels match real 1-512 channels
   //  values must be 255 or smaller and at least 0
@@ -41,13 +42,13 @@ void DMX_Transceiver::set_dmx_value(uint8_t channel, uint8_t value) {
   }
 }
 
-uint8_t DMX_Transceiver::get_dmx_value(uint8_t channel) {
+uint8_t DMX_Transceiver::get_dmx_value(uint16_t channel) {
   //  channel 0 should not be accessed
   //  channels match real 1-512 channels
   if(channel > 0 && channel < 513) {
     return _dmx_receiver->get_dmx_value(channel);
   }
-  return 50;
+  return 0;
 }
 
 //  interrupt call for the transmitter
