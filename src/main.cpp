@@ -29,6 +29,16 @@ bool current_switch_value;
 bool prev_switch_value;
 
 
+//  master grote hal
+// uint16_t master_channel = 511;
+
+//  master nieuwe hal
+uint16_t master_channel = 510;
+
+//  master  parkeerhal
+// uint16_t master_channel = 509;
+
+
 
 
 void setup() {
@@ -52,7 +62,7 @@ void setup() {
 
 
 void detect_transceiver_mode() {
-  if(dmx_transceiver->get_dmx_value(511) >= 250) {
+  if(dmx_transceiver->get_dmx_value(master_channel) >= 250) {
     digitalWrite(LED_BUILTIN, HIGH);
     current_tranceiver_state = TRANSCEIVER_States::SLAVE_MODE;
   }else {
@@ -63,7 +73,15 @@ void detect_transceiver_mode() {
 
 void switch_light() {
   if(current_switch_state == SWITCH_States::ON) {
-    
+    //  PARKEERHAL
+    // dmx_transceiver->set_dmx_value(41, 255);
+    // dmx_transceiver->set_dmx_value(42, 255);
+    // dmx_transceiver->set_dmx_value(43, 255);
+    // dmx_transceiver->set_dmx_value(44, 255);
+    // dmx_transceiver->set_dmx_value(45, 255);
+    // dmx_transceiver->set_dmx_value(46, 255);
+
+    //  NIEUWE HAL
     dmx_transceiver->set_dmx_value(25, 255);
     dmx_transceiver->set_dmx_value(27, 255);
     dmx_transceiver->set_dmx_value(29, 255);
@@ -71,6 +89,15 @@ void switch_light() {
     dmx_transceiver->set_dmx_value(33, 255);
     dmx_transceiver->set_dmx_value(35, 255);
   }else if(current_switch_state == SWITCH_States::OFF) {
+    // PARKEERHAL
+    // dmx_transceiver->set_dmx_value(41, 0);
+    // dmx_transceiver->set_dmx_value(42, 0);
+    // dmx_transceiver->set_dmx_value(43, 0);
+    // dmx_transceiver->set_dmx_value(44, 0);
+    // dmx_transceiver->set_dmx_value(45, 0);
+    // dmx_transceiver->set_dmx_value(46, 0);
+
+    //  NIEUWE HAL
     dmx_transceiver->set_dmx_value(25, 0);
     dmx_transceiver->set_dmx_value(27, 0);
     dmx_transceiver->set_dmx_value(29, 0);
