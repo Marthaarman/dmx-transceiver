@@ -73,6 +73,25 @@ void detect_transceiver_mode() {
 
 void switch_light() {
   if(current_switch_state == SWITCH_States::ON) {
+
+    //  GROTE Hal
+    // dmx_transceiver->set_dmx_value(1, 255);
+    // dmx_transceiver->set_dmx_value(2, 255);
+    // dmx_transceiver->set_dmx_value(3, 255);
+    // dmx_transceiver->set_dmx_value(4, 255);
+    // dmx_transceiver->set_dmx_value(5, 255);
+    // dmx_transceiver->set_dmx_value(6, 255);
+    // dmx_transceiver->set_dmx_value(9, 255);
+    // dmx_transceiver->set_dmx_value(10, 255);
+    // dmx_transceiver->set_dmx_value(13, 255);
+    // dmx_transceiver->set_dmx_value(14, 255);
+    // dmx_transceiver->set_dmx_value(17, 255);
+    // dmx_transceiver->set_dmx_value(18, 255);
+    // dmx_transceiver->set_dmx_value(19, 255);
+    // dmx_transceiver->set_dmx_value(20, 255);
+    // dmx_transceiver->set_dmx_value(21, 255);
+    // dmx_transceiver->set_dmx_value(22, 255);
+
     //  PARKEERHAL
     // dmx_transceiver->set_dmx_value(41, 255);
     // dmx_transceiver->set_dmx_value(42, 255);
@@ -83,11 +102,11 @@ void switch_light() {
 
     //  NIEUWE HAL
     dmx_transceiver->set_dmx_value(25, 255);
-    dmx_transceiver->set_dmx_value(27, 255);
+    dmx_transceiver->set_dmx_value(26, 255);
     dmx_transceiver->set_dmx_value(29, 255);
-    dmx_transceiver->set_dmx_value(31, 255);
+    dmx_transceiver->set_dmx_value(30, 255);
     dmx_transceiver->set_dmx_value(33, 255);
-    dmx_transceiver->set_dmx_value(35, 255);
+    dmx_transceiver->set_dmx_value(34, 255);
   }else if(current_switch_state == SWITCH_States::OFF) {
     // PARKEERHAL
     // dmx_transceiver->set_dmx_value(41, 0);
@@ -97,13 +116,31 @@ void switch_light() {
     // dmx_transceiver->set_dmx_value(45, 0);
     // dmx_transceiver->set_dmx_value(46, 0);
 
-    //  NIEUWE HAL
+    // //  NIEUWE HAL
     dmx_transceiver->set_dmx_value(25, 0);
-    dmx_transceiver->set_dmx_value(27, 0);
+    dmx_transceiver->set_dmx_value(26, 0);
     dmx_transceiver->set_dmx_value(29, 0);
-    dmx_transceiver->set_dmx_value(31, 0);
+    dmx_transceiver->set_dmx_value(30, 0);
     dmx_transceiver->set_dmx_value(33, 0);
-    dmx_transceiver->set_dmx_value(35, 0);
+    dmx_transceiver->set_dmx_value(34, 0);
+
+    //  GROTE HAL
+    // dmx_transceiver->set_dmx_value(1, 0);
+    // dmx_transceiver->set_dmx_value(2, 0);
+    // dmx_transceiver->set_dmx_value(3, 0);
+    // dmx_transceiver->set_dmx_value(4, 0);
+    // dmx_transceiver->set_dmx_value(5, 0);
+    // dmx_transceiver->set_dmx_value(6, 0);
+    // dmx_transceiver->set_dmx_value(9, 0);
+    // dmx_transceiver->set_dmx_value(10, 0);
+    // dmx_transceiver->set_dmx_value(13, 0);
+    // dmx_transceiver->set_dmx_value(14, 0);
+    // dmx_transceiver->set_dmx_value(17, 0);
+    // dmx_transceiver->set_dmx_value(18, 0);
+    // dmx_transceiver->set_dmx_value(19, 0);
+    // dmx_transceiver->set_dmx_value(20, 0);
+    // dmx_transceiver->set_dmx_value(21, 0);
+    // dmx_transceiver->set_dmx_value(22, 0);
   }
 }
 
