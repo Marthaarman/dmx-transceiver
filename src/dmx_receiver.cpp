@@ -24,7 +24,6 @@ void DMX_Receiver::_start() {
 }
 
 void DMX_Receiver::_stop() {
-  digitalWrite(this->_rx_enable_pin, LOW);
   this->_flag_started = false;
   this->_flag_receive = false;
   this->_USART_Stop();
@@ -33,6 +32,7 @@ void DMX_Receiver::_stop() {
 void DMX_Receiver::set_enable_pin(uint8_t pin) {
   this->_rx_enable_pin = pin;
   pinMode(pin, OUTPUT);
+  digitalWrite(this->_rx_enable_pin, LOW);
 }
 
 void DMX_Receiver::receive() {
@@ -114,6 +114,6 @@ void DMX_Receiver::interrupt() {
 }
 
 //  return a specific channel value
-uint8_t DMX_Receiver::get_dmx_value(uint8_t channel) {
+uint8_t DMX_Receiver::get_dmx_value(uint16_t channel) {
   return this->_channel_values[channel];
 }

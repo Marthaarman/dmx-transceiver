@@ -23,7 +23,7 @@ public:
     //  stores a user dmx input to a given channel
     //  channels 1-512
     //  values 0-255
-    void set_dmx_value(uint8_t channel, uint8_t value);
+    void set_dmx_value(uint16_t channel, uint8_t value);
 
     //  transmits the actual data using the DMX protocol
     //  only triggers once, rest is done using interrupts

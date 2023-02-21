@@ -37,12 +37,12 @@ public:
 
     //  set a dmx value for a specific channel
     //  will be written when transmit or transceive function is called
-    void set_dmx_value(uint8_t channel, uint8_t value);
+    void set_dmx_value(uint16_t channel, uint8_t value);
 
     //  gets the dmx value
     //  will return 0 if receive is never called
     //  receive or transceive needs to be called to read (receive) newest dmx value
-    uint8_t get_dmx_value(uint8_t channel); 
+    uint8_t get_dmx_value(uint16_t channel); 
 };
 
 

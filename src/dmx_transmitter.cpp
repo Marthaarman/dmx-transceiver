@@ -19,7 +19,7 @@ void DMX_Transmitter::_start() {
 }
 
 void DMX_Transmitter::_stop() {
-  digitalWrite(this->_tx_enable_pin, LOW);
+  // digitalWrite(this->_tx_enable_pin, LOW);
   this->_flag_started = false;
   this->_flag_send = false;
   this->_USART_Stop();
@@ -28,9 +28,10 @@ void DMX_Transmitter::_stop() {
 void DMX_Transmitter::set_enable_pin(uint8_t pin) {
   this->_tx_enable_pin = pin;
   pinMode(pin, OUTPUT);
+  digitalWrite(this->_tx_enable_pin, HIGH);
 }
 
-void DMX_Transmitter::set_dmx_value(uint8_t channel, uint8_t value) {
+void DMX_Transmitter::set_dmx_value(uint16_t channel, uint8_t value) {
   this->_channel_values[channel] = value;
 }
 
@@ -55,7 +56,7 @@ void DMX_Transmitter::transmit() {
 
   //  add a delay to make sure packet is sent
   //  packet is measured to take about 25ms
-  delay(25);
+  delay(50);
 }
 
 void DMX_Transmitter::_USART_Stop() {
