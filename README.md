@@ -11,3 +11,7 @@ a simple DMX transceiver that alters channel 1 when channel 511 > 250 is found i
 
 ## DMX Transceiver board with button IO
 https://github.com/Marthaarman/dmx_interceptor_PCB
+
+# Credits
+This code is heavily based on the prior released dmx-serial library by mathertel:
+https://github.com/mathertel/DMXSerial
