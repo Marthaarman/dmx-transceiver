@@ -35,6 +35,10 @@ public:
     void set_tx_enable_pin(uint8_t pin);
     void set_rx_enable_pin(uint8_t pin);
 
+    //  set RX hold time (pause time)
+    void set_rx_timeout(uint16_t time_milliseconds);
+    void set_rx_hold_time(uint16_t time_milliseconds) {set_rx_timeout(time_milliseconds);}
+
     //  set a dmx value for a specific channel
     //  will be written when transmit or transceive function is called
     void set_dmx_value(uint16_t channel, uint8_t value);

@@ -25,8 +25,13 @@ class DMX_Receiver {
     //  called when a byte has been received
     void interrupt();
 
+    //  sets a hold time (or timeout time) which is the time in milliseconds to wait for a new DMX packet
+    void set_timeout(uint16_t time_milliseconds);
+    void set_hold_time(uint16_t time_milliseconds) {set_timeout(time_milliseconds);}
+
     //  returns the value of a specific dmx channel
     uint8_t get_dmx_value(uint16_t channel); 
+    
     
 private:
     
@@ -34,6 +39,7 @@ private:
     uint8_t *_channel_values = (uint8_t*) calloc(513, sizeof(uint8_t));
 
     uint16_t _byte_counter = 0;
+    uint16_t _timeout_time = 50;    //  50 ms default wait time
 
     uint32_t _bit_counter = 0;
 

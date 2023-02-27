@@ -35,6 +35,10 @@ void DMX_Receiver::set_enable_pin(uint8_t pin) {
   digitalWrite(this->_rx_enable_pin, LOW);
 }
 
+void DMX_Receiver::set_timeout(uint16_t time_milliseconds) {
+  _timeout_time = time_milliseconds;
+}
+
 void DMX_Receiver::receive() {
   //  set flags
   //  enable receive pin
@@ -47,7 +51,7 @@ void DMX_Receiver::receive() {
   uint32_t begin_time = millis();
   while(this->_flag_started) { 
     if(this->_flag_receive == false) {break; }                                    //  done receiving
-    if((millis() - begin_time) > 1000 && this->_flag_payload == false) {break;}   //  time-out
+    if((millis() - begin_time) > _timeout_time && this->_flag_payload == false) {break;}   //  time-out
   };
 }
 

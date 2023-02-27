@@ -21,9 +21,12 @@ void DMX_Transceiver::set_tx_enable_pin(uint8_t pin) {
 }
 
 void DMX_Transceiver::set_rx_enable_pin(uint8_t pin) {
-  
   _dmx_receiver->set_enable_pin(pin);
 }
+
+void DMX_Transceiver::set_rx_timeout(uint16_t time_milliseconds) {
+  _dmx_receiver->set_timeout(time_milliseconds);
+};
 
 void DMX_Transceiver::transmit() {
   _dmx_transmitter->transmit();
